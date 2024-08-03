@@ -32,6 +32,12 @@ jobs:
   build:
     runs-on: ubuntu-22.04
 
+    name: Build ${{matrix.target}}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [x64,rpi3]
+        
     steps:
     - name: Checkout
       uses: actions/checkout@main
