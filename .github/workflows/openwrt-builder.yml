@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [x64,rpi3]
+        target: [x64,r2s,r4s]
         
     steps:
     - name: Checkout
