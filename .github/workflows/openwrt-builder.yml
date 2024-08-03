@@ -79,7 +79,6 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
-        rm -rf openwrt/.config
         [ -e $CONFIG_FILE ] && mv ${{matrix.target}}$CONFIG_FILE openwrt/.config
         echo ${{matrix.target}}$CONFIG_FILE
         chmod +x $DIY_P2_SH
