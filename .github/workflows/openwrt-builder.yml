@@ -141,15 +141,17 @@ jobs:
         [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: Upload firmware to release
-      uses: softprops/action-gh-release@master
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload images to release
+      id: upload-release
+      uses: svenstaro/upload-release-action@v2
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: HassOS/output/images/haos_*
+        asset_name: ${{ matrix.asset_name }}
+        tag: ${{ env.CURRENT_DATE }}编译
+        overwrite: true
+        file_glob: true
+        body: "欢迎关注Youtube频道https://youtube.com/@itcommander   博客地址https://sumju.net   官方硬件优惠卷领取https://sumju.net/?p=7943"
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
@@ -158,10 +160,9 @@ jobs:
         keep_minimum_runs: 2
 
     - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      uses: dev-drprasad/delete-older-releases@v0.3.2
       with:
-        keep_latest: 3
+        keep_latest: 8
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
