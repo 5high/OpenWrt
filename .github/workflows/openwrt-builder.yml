@@ -90,8 +90,8 @@ jobs:
       run: |
         mv ${{matrix.target}}$CONFIG_FILE openwrt/.config
         cd openwrt
-        #make defconfig
-        make download -j8
+        make defconfig
+        make download -j16
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
